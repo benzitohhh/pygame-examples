@@ -4,8 +4,8 @@ import pygame
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 
-zombie_img = pygame.image.load("zombie.png")
-grenade_img = pygame.image.load("grenade.png")
+zombie_img = pygame.image.load("data/zombie.png")
+grenade_img = pygame.image.load("data/grenade.png")
 
 pygame.init()
 screen = pygame.display.set_mode((600, 480))
@@ -28,7 +28,7 @@ while not done:
                 print('woooop')
 
     # Background
-    screen.fill(RED)
+    screen.fill(YELLOW)
 
     # Render Zombie
     a = screen.blit(zombie_img, (100, 100, 20, 20))

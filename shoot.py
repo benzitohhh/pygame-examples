@@ -61,9 +61,9 @@ def main():
 
     #Load images, assign to sprite classes
     #(do this before the classes are used, after screen setup)
-    img = load_image('zombie.png')
+    img = load_image('data/zombie.png')
     Zombie.images = [img, pygame.transform.flip(img, 1, 0)]
-    img = load_image('grenade.png')
+    img = load_image('data/grenade.png')
     Weapon.images = [img]
     
     # clock
@@ -71,7 +71,7 @@ def main():
     
     # create the background
     background = pygame.Surface(SCREEN_SIZE)
-    background.fill(YELLOW)
+    background.fill(RED)
     screen.blit(background, (0, 0))
     pygame.display.flip()
 
@@ -118,4 +118,4 @@ def main():
 #call the "main" function if running this script
 if __name__ == '__main__': main()
 
-main()
+#main()
