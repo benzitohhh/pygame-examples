@@ -8,7 +8,7 @@
 
 ## Docs
 
-are here https://www.pygame.org/docs/py-modindex.html
+are here https://www.pygame.org/docs/index.html
 
 ## Source code and examples
 
