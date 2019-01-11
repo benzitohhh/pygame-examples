@@ -8,18 +8,20 @@
 
 ## Source code and examples
 
-To find path to sourcecode, run this in the python repl:
+The pygame sourcecode is on github here: https://github.com/pygame/pygame
+
+To find path to sourcecode locally, run this in the python repl:
 ```
 import pygame
 print(pygame.__file__)
 ```
 
-Examples are in th `examples` subdirectory.
+Example games are in the `examples` subdirectory.
 
 
 ## Running examples in emacs
 
-Open an example file (i.e. `/examples/aliens.py`
+Open an example file (i.e. `/examples/aliens.py`)
 
 Modify any `__file__` imports to `'__file__'` (as emacs does not know about that variable.
 
