@@ -25,14 +25,16 @@ Open an example file (i.e. `/examples/aliens.py`)
 
 Modify any `__file__` imports to `'__file__'` (as emacs does not know about that variable.
 
-Do `C-c C-p` (run-python)
+Add a `main()` call to the sourcecode.
 
-Do `C-c C-c` (python-shell-send-buffer)
+Do `C-c C-p` (run-python) - starts a python shell.
 
-Then either call `main()` directly in the console.
+Do `C-c C-c` (python-shell-send-buffer) - sends the code to the python shell.
 
-More coneniently, add a `main()` call to the sourcecode. Then each `C-c C-c` will reload and run the game.
+To reload game:
 
-Doing keyboard interrupt in the console (`C-c C-c`) will stop the pygame engine. But note the window will remain on the screen.
+a) Stop the game (either by quitting it on the window, or doing a keyboard interrupt in the console). Note that the window stays.
+
+b) `C-c C-c` - to restart the game
 
 Killing the python console (`C-x k ret`) will close the pygame window.
