@@ -6,6 +6,10 @@
 ```pip install pygame```
 
 
+## Docs
+
+are here https://www.pygame.org/docs/py-modindex.html
+
 ## Source code and examples
 
 The pygame sourcecode is on github here: https://github.com/pygame/pygame
