@@ -16,7 +16,10 @@ import pygame
 print(pygame.__file__)
 ```
 
-Example games are in the `examples` subdirectory.
+Sourcecode file `sprite.py` contains a lot of useful classes (i.e. `Sprite`, `Group` etc).
+
+Example games are in the `/examples` subdirectory.
+
 
 
 ## Running examples in emacs
