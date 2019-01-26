@@ -18,6 +18,9 @@ if not pygame.mixer: print ('Warning, sound disabled')
 main_dir = os.path.split(os.path.abspath('__file__'))[0]
 data_dir = os.path.join(main_dir, 'data')
 
+RED = (255, 0, 0)
+YELLOW = (255, 255, 0)
+
 #functions to create our resources
 def load_image(name, colorkey=None):
     fullname = os.path.join(data_dir, name)
@@ -53,7 +56,17 @@ class Fist(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self) #call Sprite initializer
         self.image, self.rect = load_image('fist.bmp', -1)
+        self.hitbox = Rect(30, 60, 20, 20)
         self.punching = 0
+
+        # create a background in shape of the hitbox, and blit it on to the image
+        hitbox = self._get_hitbox()
+        hitbox_surface = pygame.Surface(hitbox.size)
+        hitbox_surface.fill(RED)
+
+        # blit the image
+        self.image.blit(hitbox_surface, hitbox.topleft)
+        #self.image.blit()
 
     def update(self):
         "move the fist based on the mouse position"
@@ -66,12 +79,18 @@ class Fist(pygame.sprite.Sprite):
         "returns true if the fist collides with the target"
         if not self.punching:
             self.punching = 1
-            hitbox = self.rect.inflate(-5, -5)
+            #hitbox = self.rect.inflate(-20, -20)
+            hitbox = self._get_hitbox()
             return hitbox.colliderect(target.rect)
 
     def unpunch(self):
         "called to pull the fist back"
         self.punching = 0
+
+    def _get_hitbox(self):
+        hitbox = self.rect.move(self.hitbox.topleft)
+        hitbox.size = self.hitbox.size
+        return hitbox
 
 
 class Chimp(pygame.sprite.Sprite):
@@ -128,7 +147,8 @@ def main():
        a loop until the function returns."""
     #Initialize Everything
     pygame.init()
-    screen = pygame.display.set_mode((468, 60))
+    #screen = pygame.display.set_mode((468, 60))
+    screen = pygame.display.set_mode((640, 480))
     pygame.display.set_caption('Monkey Fever')
     pygame.mouse.set_visible(0)
 
@@ -154,7 +174,7 @@ def main():
     punch_sound = load_sound('punch.wav')
     chimp = Chimp()
     fist = Fist()
-    allsprites = pygame.sprite.RenderPlain((fist, chimp))
+    allsprites = pygame.sprite.RenderPlain((chimp, fist))
 
 
     #Main Loop
@@ -170,10 +190,10 @@ def main():
                 going = False
             elif event.type == MOUSEBUTTONDOWN:
                 if fist.punch(chimp):
-                    punch_sound.play() #punch
+                    #punch_sound.play() #punch
                     chimp.punched()
-                else:
-                    whiff_sound.play() #miss
+                #else:
+                    #whiff_sound.play() #miss
             elif event.type == MOUSEBUTTONUP:
                 fist.unpunch()
 
@@ -190,7 +210,7 @@ def main():
 
 
 #this calls the 'main' function when this script is executed
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
 
-#main()
+main()
