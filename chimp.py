@@ -56,22 +56,24 @@ class Fist(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self) #call Sprite initializer
         self.image, self.rect = load_image('fist.bmp', -1)
-        self.hitbox = Rect(30, 60, 20, 20)
+        self.hitbox = Rect(30, 0, 20, 20)
+        self.hitbox_offset = self.hitbox.topleft
         self.punching = 0
 
         # create a background in shape of the hitbox, and blit it on to the image
-        hitbox = self._get_hitbox()
-        hitbox_surface = pygame.Surface(hitbox.size)
+        hitbox_surface = pygame.Surface(self.hitbox.size)
         hitbox_surface.fill(RED)
+        self.image.blit(hitbox_surface, self.hitbox.topleft)
 
-        # blit the image
-        self.image.blit(hitbox_surface, hitbox.topleft)
         #self.image.blit()
 
     def update(self):
         "move the fist based on the mouse position"
         pos = pygame.mouse.get_pos()
         self.rect.midtop = pos
+        self.hitbox.midtop = pos
+        self.hitbox.move_ip(*self.hitbox_offset)
+
         if self.punching:
             self.rect.move_ip(5, 10)
 
@@ -79,18 +81,11 @@ class Fist(pygame.sprite.Sprite):
         "returns true if the fist collides with the target"
         if not self.punching:
             self.punching = 1
-            #hitbox = self.rect.inflate(-20, -20)
-            hitbox = self._get_hitbox()
-            return hitbox.colliderect(target.rect)
+            return self.hitbox.colliderect(target.rect)
 
     def unpunch(self):
         "called to pull the fist back"
         self.punching = 0
-
-    def _get_hitbox(self):
-        hitbox = self.rect.move(self.hitbox.topleft)
-        hitbox.size = self.hitbox.size
-        return hitbox
 
 
 class Chimp(pygame.sprite.Sprite):
