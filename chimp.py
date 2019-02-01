@@ -57,22 +57,22 @@ class Fist(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self) #call Sprite initializer
         self.image, self.rect = load_image('fist.bmp', -1)
         self.hitbox = Rect(30, 0, 20, 20)
-        self.hitbox_offset = self.hitbox.topleft
+        self.HITBOX_OFFSET = self.hitbox.topleft
         self.punching = 0
 
-        # create a background in shape of the hitbox, and blit it on to the image
-        hitbox_surface = pygame.Surface(self.hitbox.size)
-        hitbox_surface.fill(RED)
+        #self.image.blit()
+        
+        # For debugging, blit the hitbox onto ourselves.
+        hitbox_surface = pygame.Surface(self.hitbox.size).fill(RED)
         self.image.blit(hitbox_surface, self.hitbox.topleft)
 
-        #self.image.blit()
 
     def update(self):
         "move the fist based on the mouse position"
         pos = pygame.mouse.get_pos()
         self.rect.midtop = pos
         self.hitbox.midtop = pos
-        self.hitbox.move_ip(*self.hitbox_offset)
+        self.hitbox.move_ip(*self.HITBOX_OFFSET)
 
         if self.punching:
             self.rect.move_ip(5, 10)
