@@ -79,16 +79,13 @@ class Fist(pygame.sprite.Sprite):
         self.hitbox.move_ip(*self.OFFSET)
         self.hitbox.move_ip(*self.HITBOX_OFFSET)
 
-        if self.punching:
-            self.rect.move_ip(5, 10)
+        # if self.punching:
+        #     self.rect.move_ip(5, 10)
 
     def punch(self, target):
         "returns true if the fist collides with the target"
         if not self.punching:
             self.punching = 1
-            print(self.hitbox)
-            print(target.hitbox)
-            print("")
             return self.hitbox.colliderect(target.hitbox)
 
     def unpunch(self):
