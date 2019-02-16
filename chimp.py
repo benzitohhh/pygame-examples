@@ -56,22 +56,27 @@ class Fist(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self) #call Sprite initializer
         self.image, self.rect = load_image('fist.bmp', -1)
-        self.hitbox = Rect(30, 0, 20, 20)
+        self.hitbox = Rect(30, 0, 20, 20) # relative to image
+        self.OFFSET = (-33, -3)
         self.HITBOX_OFFSET = self.hitbox.topleft
         self.punching = 0
 
         #self.image.blit()
-        
+
         # For debugging, blit the hitbox onto ourselves.
-        hitbox_surface = pygame.Surface(self.hitbox.size).fill(RED)
+        hitbox_surface = pygame.Surface(self.hitbox.size)
+        hitbox_surface.fill(RED)
         self.image.blit(hitbox_surface, self.hitbox.topleft)
 
 
     def update(self):
         "move the fist based on the mouse position"
         pos = pygame.mouse.get_pos()
-        self.rect.midtop = pos
-        self.hitbox.midtop = pos
+        self.rect.topleft = pos
+        self.rect.move_ip(*self.OFFSET)
+
+        self.hitbox.topleft = pos
+        self.hitbox.move_ip(*self.OFFSET)
         self.hitbox.move_ip(*self.HITBOX_OFFSET)
 
         if self.punching:
@@ -81,7 +86,10 @@ class Fist(pygame.sprite.Sprite):
         "returns true if the fist collides with the target"
         if not self.punching:
             self.punching = 1
-            return self.hitbox.colliderect(target.rect)
+            print(self.hitbox)
+            print(target.hitbox)
+            print("")
+            return self.hitbox.colliderect(target.hitbox)
 
     def unpunch(self):
         "called to pull the fist back"
@@ -94,11 +102,19 @@ class Chimp(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self) #call Sprite intializer
         self.image, self.rect = load_image('chimp.bmp', -1)
+        self.hitbox = Rect(30, 40, 20, 20) # relative to image
+        self.HITBOX_OFFSET = self.hitbox.topleft
+
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
         self.rect.topleft = 10, 10
         self.move = 1
         self.dizzy = 0
+
+        # For debugging, blit the hitbox onto ourselves.
+        hitbox_surface = pygame.Surface(self.hitbox.size)
+        hitbox_surface.fill(YELLOW)
+        self.image.blit(hitbox_surface, self.hitbox.topleft)
 
     def update(self):
         "walk or spin, depending on the monkeys state"
@@ -115,7 +131,10 @@ class Chimp(pygame.sprite.Sprite):
             self.move = -self.move
             newpos = self.rect.move((self.move, 0))
             self.image = pygame.transform.flip(self.image, 1, 0)
+
         self.rect = newpos
+        self.hitbox.topleft = newpos.topleft
+        self.hitbox.move_ip(*self.HITBOX_OFFSET)
 
     def _spin(self):
         "spin the monkey image"
