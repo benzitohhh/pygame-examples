@@ -10,9 +10,12 @@ from pygame.locals import *
 if not pygame.image.get_extended():
     raise SystemExit("Sorry, extended image module required")
 
+#No sound please
+pygame.mixer = None
+
 #game constants
-MAX_SHOTS      = 2      #most player bullets onscreen
-ALIEN_ODDS     = 22     #chances a new alien appears
+MAX_SHOTS      = 3      #most player bullets onscreen
+ALIEN_ODDS     = 30   #chances a new alien appears
 BOMB_ODDS      = 60    #chances a new bomb will drop
 ALIEN_RELOAD   = 12     #frames between new aliens
 SCREENRECT     = Rect(0, 0, 640, 480)
@@ -89,7 +92,7 @@ class Player(pygame.sprite.Sprite):
 
 
 class Alien(pygame.sprite.Sprite):
-    speed = 8
+    speed = 3
     animcycle = 12
     images = []
     def __init__(self):
@@ -214,10 +217,10 @@ def main(winstyle = 0):
     #load the sound effects
     boom_sound = load_sound('boom.wav')
     shoot_sound = load_sound('car_door.wav')
-    # if pygame.mixer:
-    #     music = os.path.join(main_dir, 'data', 'house_lo.wav')
-    #     pygame.mixer.music.load(music)
-    #     pygame.mixer.music.play(-1)
+    if pygame.mixer:
+        music = os.path.join(main_dir, 'data', 'house_lo.wav')
+        pygame.mixer.music.load(music)
+        pygame.mixer.music.play(-1)
 
     # Initialize Game Groups
     aliens = pygame.sprite.Group()
@@ -246,7 +249,6 @@ def main(winstyle = 0):
     Alien() #note, this 'lives' because it goes into a sprite group
     if pygame.font:
         all.add(Score())
-
 
     while player.alive():
 
@@ -284,19 +286,19 @@ def main(winstyle = 0):
             Bomb(lastalien.sprite)
 
         # Detect collisions
-        for alien in pygame.sprite.spritecollide(player, aliens, 1):
+        for alien in pygame.sprite.spritecollide(player, aliens, dokill=1):
             boom_sound.play()
             Explosion(alien)
             Explosion(player)
             SCORE = SCORE + 1
             player.kill()
 
-        for alien in pygame.sprite.groupcollide(shots, aliens, 1, 1).keys():
+        for alien in pygame.sprite.groupcollide(shots, aliens, dokilla=1, dokillb=1).keys():
             boom_sound.play()
             Explosion(alien)
             SCORE = SCORE + 1
 
-        for bomb in pygame.sprite.spritecollide(player, bombs, 1):
+        for bomb in pygame.sprite.spritecollide(player, bombs, dokill=1):
             boom_sound.play()
             Explosion(player)
             Explosion(bomb)
@@ -319,4 +321,4 @@ def main(winstyle = 0):
 #call the "main" function if running this script
 if __name__ == '__main__': main()
 
-#main()
+main()
